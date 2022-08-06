@@ -1,17 +1,17 @@
-class LocalNotificationAction {
+class WindowsNotificationAction {
   /// The type of action, can be button.
   String type;
 
   /// The label for the given action.
   String? text;
 
-  LocalNotificationAction({
+  WindowsNotificationAction({
     this.type = 'button',
     this.text,
   });
 
-  factory LocalNotificationAction.fromJson(Map<String, dynamic> json) {
-    return LocalNotificationAction(
+  factory WindowsNotificationAction.fromJson(Map<String, dynamic> json) {
+    return WindowsNotificationAction(
       type: json['type'],
       text: json['text'],
     );

@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
 
     // Add in main method.
 
-    LocalNotification notification = LocalNotification(
+    WindowsNotification notification = WindowsNotification(
       title: "Notifikasi Pesan",
       body: "hello flutter windows!",
     );
@@ -45,10 +45,10 @@ class _MyAppState extends State<MyApp> {
     notification.onClose = (closeReason) {
       // Only supported on windows, other platforms closeReason is always unknown.
       switch (closeReason) {
-        case LocalNotificationCloseReason.userCanceled:
+        case WindowsNotificationCloseReason.userCanceled:
           // do something
           break;
-        case LocalNotificationCloseReason.timedOut:
+        case WindowsNotificationCloseReason.timedOut:
           // do something
           break;
         default:

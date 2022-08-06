@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-import 'local_notification_close_reason.dart';
-import 'local_notification_listener.dart';
-import 'local_notification.dart';
+import 'windows_notification_close_reason.dart';
+import 'windows_notification_listener.dart';
+import 'windows_notification.dart';
 import 'shortcut_policy.dart';
 
 class WindowsLocalNotification {
@@ -20,18 +20,18 @@ class WindowsLocalNotification {
   final MethodChannel _channel =
       const MethodChannel('windows_local_notification');
 
-  final ObserverList<LocalNotificationListener> _listeners =
-      ObserverList<LocalNotificationListener>();
+  final ObserverList<WindowsNotificationListener> _listeners =
+      ObserverList<WindowsNotificationListener>();
 
   bool _isInitialized = false;
   String? _appName;
-  Map<String, LocalNotification> _notifications = {};
+  final Map<String, WindowsNotification> _notifications = {};
 
   Future<void> _methodCallHandler(MethodCall call) async {
     String notificationId = call.arguments['notificationId'];
-    LocalNotification? localNotification = _notifications[notificationId];
+    WindowsNotification? localNotification = _notifications[notificationId];
 
-    for (final LocalNotificationListener listener in listeners) {
+    for (final WindowsNotificationListener listener in listeners) {
       if (!_listeners.contains(listener)) {
         return;
       }
@@ -39,10 +39,10 @@ class WindowsLocalNotification {
       if (call.method == 'onLocalNotificationShow') {
         listener.onLocalNotificationShow(localNotification!);
       } else if (call.method == 'onLocalNotificationClose') {
-        LocalNotificationCloseReason closeReason =
-            LocalNotificationCloseReason.values.firstWhere(
+        WindowsNotificationCloseReason closeReason =
+            WindowsNotificationCloseReason.values.firstWhere(
           (e) => describeEnum(e) == call.arguments['closeReason'],
-          orElse: () => LocalNotificationCloseReason.unknown,
+          orElse: () => WindowsNotificationCloseReason.unknown,
         );
         listener.onLocalNotificationClose(
           localNotification!,
@@ -62,9 +62,9 @@ class WindowsLocalNotification {
     }
   }
 
-  List<LocalNotificationListener> get listeners {
-    final List<LocalNotificationListener> localListeners =
-        List<LocalNotificationListener>.from(_listeners);
+  List<WindowsNotificationListener> get listeners {
+    final List<WindowsNotificationListener> localListeners =
+        List<WindowsNotificationListener>.from(_listeners);
     return localListeners;
   }
 
@@ -72,11 +72,11 @@ class WindowsLocalNotification {
     return _listeners.isNotEmpty;
   }
 
-  void addListener(LocalNotificationListener listener) {
+  void addListener(WindowsNotificationListener listener) {
     _listeners.add(listener);
   }
 
-  void removeListener(LocalNotificationListener listener) {
+  void removeListener(WindowsNotificationListener listener) {
     _listeners.remove(listener);
   }
 
@@ -97,7 +97,7 @@ class WindowsLocalNotification {
   }
 
   /// Immediately shows the notification to the user.
-  Future<void> notify(LocalNotification notification) async {
+  Future<void> notify(WindowsNotification notification) async {
     if ((Platform.isLinux || Platform.isWindows) && !_isInitialized) {
       throw Exception(
         'Not initialized, please call `windowsLocalNotification.setup` first to initialize',
@@ -112,13 +112,13 @@ class WindowsLocalNotification {
   }
 
   /// Closes the notification immediately.
-  Future<void> close(LocalNotification notification) async {
+  Future<void> close(WindowsNotification notification) async {
     final Map<String, dynamic> arguments = notification.toJson();
     await _channel.invokeMethod('close', arguments);
   }
 
   /// Destroys the notification immediately.
-  Future<void> destroy(LocalNotification notification) async {
+  Future<void> destroy(WindowsNotification notification) async {
     await close(notification);
     removeListener(notification);
     _notifications.remove(notification.identifier);

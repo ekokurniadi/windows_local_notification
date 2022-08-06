@@ -1,4 +1,4 @@
-enum LocalNotificationCloseReason {
+enum WindowsNotificationCloseReason {
   userCanceled,
   timedOut,
   unknown,

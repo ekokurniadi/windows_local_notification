@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-import 'local_notification_action.dart';
-import 'local_notification_close_reason.dart';
-import 'local_notification_listener.dart';
+import 'windows_notification_action.dart';
+import 'windows_notification_close_reason.dart';
+import 'windows_notification_listener.dart';
 import 'windows_local_notification.dart';
 
-class LocalNotification with LocalNotificationListener {
+class WindowsNotification with WindowsNotificationListener {
   String identifier = const Uuid().v4();
 
   /// Representing the title of the notification.
@@ -22,14 +22,14 @@ class LocalNotification with LocalNotificationListener {
   bool silent;
 
   /// Representing the actions of the notification.
-  List<LocalNotificationAction>? actions;
+  List<WindowsNotificationAction>? actions;
 
   VoidCallback? onShow;
-  ValueChanged<LocalNotificationCloseReason>? onClose;
+  ValueChanged<WindowsNotificationCloseReason>? onClose;
   VoidCallback? onClick;
   ValueChanged<int>? onClickAction;
 
-  LocalNotification({
+  WindowsNotification({
     String? identifier,
     required this.title,
     this.subtitle,
@@ -43,16 +43,16 @@ class LocalNotification with LocalNotificationListener {
     windowsLocalNotification.addListener(this);
   }
 
-  factory LocalNotification.fromJson(Map<String, dynamic> json) {
-    List<LocalNotificationAction>? actions;
+  factory WindowsNotification.fromJson(Map<String, dynamic> json) {
+    List<WindowsNotificationAction>? actions;
 
     if (json['actions'] != null) {
       Iterable l = json['actions'] as List;
       actions =
-          l.map((item) => LocalNotificationAction.fromJson(item)).toList();
+          l.map((item) => WindowsNotificationAction.fromJson(item)).toList();
     }
 
-    return LocalNotification(
+    return WindowsNotification(
       identifier: json['identifier'],
       title: json['title'],
       subtitle: json['subtitle'],
@@ -89,7 +89,7 @@ class LocalNotification with LocalNotificationListener {
   }
 
   @override
-  void onLocalNotificationShow(LocalNotification notification) {
+  void onLocalNotificationShow(WindowsNotification notification) {
     if (identifier != notification.identifier || onShow == null) {
       return;
     }
@@ -98,8 +98,8 @@ class LocalNotification with LocalNotificationListener {
 
   @override
   void onLocalNotificationClose(
-    LocalNotification notification,
-    LocalNotificationCloseReason closeReason,
+    WindowsNotification notification,
+    WindowsNotificationCloseReason closeReason,
   ) {
     if (identifier != notification.identifier || onClose == null) {
       return;
@@ -108,7 +108,7 @@ class LocalNotification with LocalNotificationListener {
   }
 
   @override
-  void onLocalNotificationClick(LocalNotification notification) {
+  void onLocalNotificationClick(WindowsNotification notification) {
     if (identifier != notification.identifier || onClick == null) {
       return;
     }
@@ -117,7 +117,7 @@ class LocalNotification with LocalNotificationListener {
 
   @override
   void onLocalNotificationClickAction(
-    LocalNotification notification,
+    WindowsNotification notification,
     int actionIndex,
   ) {
     if (identifier != notification.identifier || onClickAction == null) {
