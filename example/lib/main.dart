@@ -39,9 +39,7 @@ class _MyAppState extends State<MyApp> {
       title: "Notifikasi Pesan",
       body: "hello flutter windows!",
     );
-    notification.onShow = () {
-      print('onShow ${notification.identifier}');
-    };
+    notification.onShow = () {};
     notification.onClose = (closeReason) {
       // Only supported on windows, other platforms closeReason is always unknown.
       switch (closeReason) {
@@ -53,13 +51,12 @@ class _MyAppState extends State<MyApp> {
           break;
         default:
       }
-      print('onClose $closeReason');
     };
     notification.onClick = () {
-      print('onClick ${notification.identifier}');
+      // print('onClick ${notification.identifier}');
     };
     notification.onClickAction = (actionIndex) {
-      print('onClickAction ${notification.identifier} - $actionIndex');
+      // print('onClickAction ${notification.identifier} - $actionIndex');
     };
 
     notification.show();
