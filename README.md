@@ -6,7 +6,6 @@ Make a Simple Notification on Flutter Desktop Windows
 <ul>
  <li>Installing</li>
 </ul>
-Installing
 Add package into pubspec.yaml file on your flutter project
 
  windows_local_notification:  
