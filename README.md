@@ -1,15 +1,16 @@
 # windows_local_notification
 
-A new flutter plugin project.
+Make a Simple Notification on Flutter Desktop Windows
 
 ## Getting Started
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+## Installing
+Add package into yaml file on your flutter project
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+ windows_local_notification:  
+ &nbsp;&nbsp;&nbsp;&nbsp;git: https://github.com/ekokurniadi/windows_local_notification.git
+    
+## Using
+Please check the example folder from this repository, thank you :)
+
 
