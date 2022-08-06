@@ -5,8 +5,14 @@ import 'package:windows_local_notification/windows_local_notification.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  /// window manager is not required
+  /// if you want handle some feature
+  /// like prevent close, you can use
+  /// [window manager]
   await windowManager.ensureInitialized();
 
+  /// required setup for initialize [WindowsLocalNotification]
   await windowsLocalNotification.setup(
     appName: 'Windows Local Notification',
     shortcutPolicy: ShortcutPolicy.requireCreate,
@@ -28,20 +34,20 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-
-    // Add in main method.
-
+  Future<void> showNotification() async {
     WindowsNotification notification = WindowsNotification(
       title: "Notifikasi Pesan",
       body: "hello flutter windows!",
+      actions: [
+        WindowsNotificationAction(type: 'button', text: 'Show'),
+        WindowsNotificationAction(type: 'button', text: 'Dismiss'),
+      ],
     );
-    notification.onShow = () {};
+    notification.onShow = () {
+      // TODO : CREATE YOUR FUNCTION HERE IF YOU WANT MAKE SOMETHING WHEN NOTIFICATION IS SHOWING
+    };
     notification.onClose = (closeReason) {
-      // Only supported on windows, other platforms closeReason is always unknown.
+      /// Only supported on [windows], other platforms closeReason is always unknown.
       switch (closeReason) {
         case WindowsNotificationCloseReason.userCanceled:
           // do something
@@ -53,10 +59,10 @@ class _MyAppState extends State<MyApp> {
       }
     };
     notification.onClick = () {
-      // print('onClick ${notification.identifier}');
+      // TODO : HANDLE EVENT ON CLICK NOTIFICATION
     };
     notification.onClickAction = (actionIndex) {
-      // print('onClickAction ${notification.identifier} - $actionIndex');
+      // TODO : HANDLE EVENT BUTTON ACTION ON CLICK NOTIFICATION
     };
 
     notification.show();
@@ -72,7 +78,7 @@ class _MyAppState extends State<MyApp> {
         body: Center(
           child: ElevatedButton(
               onPressed: () async {
-                await initPlatformState();
+                await showNotification();
               },
               child: const Text("Show Notification")),
         ),
