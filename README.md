@@ -14,3 +14,4 @@ Add package into yaml file on your flutter project
 Please check the example folder from this repository, thank you :)
 
 
+![gambar](https://user-images.githubusercontent.com/47097891/183243171-f9470ee0-345c-490f-9ba5-35daa3cdf887.png)
